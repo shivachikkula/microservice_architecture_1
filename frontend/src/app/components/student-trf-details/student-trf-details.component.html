@@ -1,0 +1,314 @@
+<div class="min-h-screen bg-gray-100">
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-xl font-bold text-gray-800">Student TRF Details</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            (click)="navigateToDashboard()"
+            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-200">
+            Back to Dashboard
+          </button>
+          <button
+            (click)="logout()"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-200">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+
+      <!-- Success Message -->
+      <div *ngIf="submitSuccess" class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline"> Student details have been saved successfully.</span>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="submitError" class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Error!</strong>
+        <span class="block sm:inline"> {{ errorMessage }}</span>
+      </div>
+
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+        <!-- Student Details Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Student Details</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">First Name <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="firstName"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                [class.border-red-500]="firstName?.invalid && firstName?.touched">
+              <p *ngIf="firstName?.invalid && firstName?.touched" class="mt-1 text-sm text-red-500">
+                First name is required (min 2 characters)
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Last Name <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="lastName"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                [class.border-red-500]="lastName?.invalid && lastName?.touched">
+              <p *ngIf="lastName?.invalid && lastName?.touched" class="mt-1 text-sm text-red-500">
+                Last name is required (min 2 characters)
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth <span class="text-red-500">*</span></label>
+              <input
+                type="date"
+                formControlName="dob"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                [class.border-red-500]="dob?.invalid && dob?.touched">
+              <p *ngIf="dob?.invalid && dob?.touched" class="mt-1 text-sm text-red-500">
+                Date of birth is required
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Gender <span class="text-red-500">*</span></label>
+              <select
+                formControlName="gender"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                [class.border-red-500]="gender?.invalid && gender?.touched">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <p *ngIf="gender?.invalid && gender?.touched" class="mt-1 text-sm text-red-500">
+                Gender is required
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Address 1 Section -->
+        <div class="bg-white rounded-lg shadow-md p-6" formGroupName="address1">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Address 1</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address Line 1 <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="address1"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address Line 2</label>
+              <input
+                type="text"
+                formControlName="address2"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">City <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="city"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">State <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="state"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Zipcode <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="zipcode"
+                placeholder="12345 or 12345-6789"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+          </div>
+        </div>
+
+        <!-- Address 2 Section -->
+        <div class="bg-white rounded-lg shadow-md p-6" formGroupName="address2">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Address 2</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address Line 1 <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="address1"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address Line 2</label>
+              <input
+                type="text"
+                formControlName="address2"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">City <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="city"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">State <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="state"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Zipcode <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="zipcode"
+                placeholder="12345 or 12345-6789"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+          </div>
+        </div>
+
+        <!-- Address 3 Section -->
+        <div class="bg-white rounded-lg shadow-md p-6" formGroupName="address3">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Address 3</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address Line 1 <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="address1"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address Line 2</label>
+              <input
+                type="text"
+                formControlName="address2"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">City <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="city"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">State <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="state"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Zipcode <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="zipcode"
+                placeholder="12345 or 12345-6789"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+          </div>
+        </div>
+
+        <!-- Address 4 Section -->
+        <div class="bg-white rounded-lg shadow-md p-6" formGroupName="address4">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Address 4</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address Line 1 <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="address1"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address Line 2</label>
+              <input
+                type="text"
+                formControlName="address2"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">City <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="city"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">State <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="state"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Zipcode <span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                formControlName="zipcode"
+                placeholder="12345 or 12345-6789"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex justify-end space-x-4">
+            <button
+              type="button"
+              (click)="studentForm.reset()"
+              class="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition duration-200">
+              Reset Form
+            </button>
+            <button
+              type="submit"
+              [disabled]="isSubmitting"
+              class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed">
+              <span *ngIf="!isSubmitting">Submit</span>
+              <span *ngIf="isSubmitting">
+                <svg class="animate-spin h-5 w-5 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Submitting...
+              </span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
